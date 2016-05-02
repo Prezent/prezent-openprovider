@@ -3,6 +3,8 @@
 namespace Prezent\OpenProvider;
 
 use Http\Client\HttpClient;
+use Prezent\OpenProvider\Exception\RequestException;
+use Prezent\OpenProvider\Exception\ResponseException;
 
 /**
  * OpenProvider API client
@@ -40,9 +42,19 @@ class Client
         }
 
         $body = $this->createXml($method, $data);
-        $response = $this->config->getHttpClient()->post($this->config->getUri(), [], $body);
 
-        return new \SimpleXMLElement($response->getBody());
+        try {
+            $response = $this->config->getHttpClient()->post($this->config->getUri(), [], $body);
+            $xml = new \SimpleXMLElement($response->getBody());
+        } catch (\Exception $e) {
+            throw new RequestException('Server did not produce a response', 0, $e);
+        }
+
+        if ($xml->reply->code != 0) {
+            throw new ResponseException('Server response error: ' . $xml->reply->desc, (int) $xml->reply->code);
+        }
+
+        return $xml->reply->data;
     }
 
     /**
