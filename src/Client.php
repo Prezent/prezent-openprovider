@@ -87,17 +87,8 @@ class Client
      * @param array $data
      * @return void
      */
-    public function serialize(\SimpleXMLElement $node, $data)
+    private function serialize(\SimpleXMLElement $node, $data)
     {
-
-        // ['foo' => [
-        //     ['bar' => 'one'],
-        //     ['bar' => 'two'],
-        // ]]
-        //
-        // <foo><bar>one</bar></foo>
-        // <foo><bar>two</bar></foo>
-
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $numeric = count(array_filter(array_keys($value), 'is_string')) == 0;
