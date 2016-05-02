@@ -106,12 +106,14 @@ class Client
                 $numeric = count(array_filter(array_keys($value), 'is_string')) == 0;
 
                 if ($numeric) {
+                    $array = $node->addChild($key)->addChild('array');
+
                     foreach ($value as $item) {
                         if (!is_array($item)) {
                             throw new \Exception('Not a nested array');
                         }
 
-                        $this->serialize($node->addChild($key), $item);
+                        $this->serialize($array->addChild('item'), $item);
                     }
                 } else {
                     $this->serialize($node->addChild($key), $value);

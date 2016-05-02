@@ -119,10 +119,10 @@ class ClientTest extends MockClientTest
 
         $request = $this->getLastRequest();
 
-        $this->assertEquals(2, count($request->createCustomerRequest->name));
-        $this->assertEquals('John', (string) $request->createCustomerRequest->name[0]->firstName);
-        $this->assertEquals('Doe', (string) $request->createCustomerRequest->name[0]->lastName);
-        $this->assertEquals('Mary', (string) $request->createCustomerRequest->name[1]->firstName);
-        $this->assertEquals('Jane', (string) $request->createCustomerRequest->name[1]->lastName);
+        $this->assertEquals(2, count($request->createCustomerRequest->name->array->item));
+        $this->assertEquals('John', (string) $request->createCustomerRequest->name->array->item[0]->firstName);
+        $this->assertEquals('Doe', (string) $request->createCustomerRequest->name->array->item[0]->lastName);
+        $this->assertEquals('Mary', (string) $request->createCustomerRequest->name->array->item[1]->firstName);
+        $this->assertEquals('Jane', (string) $request->createCustomerRequest->name->array->item[1]->lastName);
     }
 }
